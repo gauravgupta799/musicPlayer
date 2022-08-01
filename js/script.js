@@ -7,7 +7,10 @@ playPauseBtn = wrapper.querySelector(".play-pause"),
 prevBtn = wrapper.querySelector("#prev"),
 nextBtn = wrapper.querySelector("#next"),
 progressBar = wrapper.querySelector(".progress-bar"),
-progressArea = wrapper.querySelector(".progress-area");
+progressArea = wrapper.querySelector(".progress-area"),
+musicList = wrapper.querySelector(".music-list"),
+showMoreBtn = wrapper.querySelector("#more-music"),
+hideMusicBtn = wrapper.querySelector("#close");
 
 
 let musicIndex = 1;
@@ -149,3 +152,39 @@ mainAudio.addEventListener("ended",()=>{
 });
 
 // 
+
+showMoreBtn.addEventListener("click", ()=>{
+    musicList.classList.toggle("show");
+});
+
+hideMusicBtn.addEventListener("click", ()=>{
+    showMoreBtn.click();
+});
+
+const ulTag = wrapper.querySelector("ul");
+for(let i = 0; i < allMusic.length; i++) {
+    let liTag = `<li>
+                    <div class ="row">
+                        <span>${allMusic[i].name}</span>
+                        <p>${allMusic[i].artist}</p>
+                        </div>
+                        <audio class ="${allMusic[i].src}"  id= "${allMusic[i].src}" src="songs/${allMusic[i].src}.mp3"></audio>
+                        <span id="${allMusic[i].src}" class="audio-duration">3:40</span>
+                    </div>
+                </li>`
+    ulTag.innerAdjacentHTML("beforeend", liTag);
+
+    let liAudioTagDuration = ulTag.querySelector(`#${allMusic[i].src}`);
+    let liAudioTag = ulTag.querySelector(`#${allMusic[i].src}`);
+
+
+    liAudioTaga.addEventListener("loadeddata",()=>{
+        let audioDuration = liAudioTag.duration;
+        let totalMin = Math.floor(audioDuration / 60);
+        let totalSec =  Math.floor(audioDuration % 60 );
+        if(totalSec < 10 ){
+            totalSec = `0${totalSec}`;
+        }
+        liAudioTagDuration.innerText = `${totalMin}:${totalSec}`;
+    });
+}
